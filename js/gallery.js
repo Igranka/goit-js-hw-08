@@ -84,22 +84,21 @@ images.forEach(image => {
 });
 
 // Modal
-document.querySelector('.gallery').addEventListener('click', function(event) {
+gallery.addEventListener("click", (event) => {
     event.preventDefault();
-    if (event.currentTarget === event.target) {
+    if (event.target.nodeName !== "IMG") {
         return;
+    } else {
+        const imageTarget = images.find(({ original }) => original === event.target.dataset.source);
+
+        basicLightbox
+            .create(
+                `<img 
+                    class="modal-image"
+                    src="${imageTarget.original}" 
+                    alt=${imageTarget.description}
+                />`
+            )
+            .show();
     }
-    const imageTarget = images.find(({ original }) => original === event.target.dataset.source);
-
-    const instance = basicLightbox.create(`
-        <div class="modal">
-            <img
-                class="modal-image"
-                src=${imageTarget.original} 
-                alt=${imageTarget.description}
-            />
-        </div>
-    `);
-    instance.show();
 });
-
